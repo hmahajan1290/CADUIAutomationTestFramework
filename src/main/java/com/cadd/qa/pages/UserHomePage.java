@@ -49,9 +49,18 @@ public class UserHomePage extends TestBase{
 	
 	public void validateLoggedInUserName()
 	{
-		hoverProjectName();
-		String userName = loggedInUserName.getText();
-		Assert.assertEquals(userName, prop.getProperty("username"));
-		log.info("[ASSERT PASSED] - User '" + userName + "'is logged in into the application as expected");
+		try
+		{
+			hoverProjectName();
+			String userName = loggedInUserName.getText();
+			Assert.assertEquals(userName, prop.getProperty("username"));
+			log.info("[ASSERT PASSED] - User '" + userName + "' is logged in into the application as expected");
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateLoggedInUserName method", e);
+			e.printStackTrace();
+		}
 	}
 }

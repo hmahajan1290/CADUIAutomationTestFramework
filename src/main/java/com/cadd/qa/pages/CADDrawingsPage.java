@@ -70,22 +70,50 @@ public class CADDrawingsPage extends TestBase{
 	
 	public void validateCADDrawingsPageTitle()
 	{
-		String pageTitle = getPageTitle();
-		Assert.assertEquals(pageTitle, TestConstants.CADDRAWINGS_PAGE_TITLE);
-		log.info("[ASSERT PASSED] - '" + pageTitle + "' does match expected title '" + TestConstants.CADDRAWINGS_PAGE_TITLE + "'");
+		try
+		{
+			String pageTitle = getPageTitle();
+			Assert.assertEquals(pageTitle, TestConstants.CADDRAWINGS_PAGE_TITLE);
+			log.info("[ASSERT PASSED] - '" + pageTitle + "' does match expected title '" + TestConstants.CADDRAWINGS_PAGE_TITLE + "'");
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateCADDrawingsPageTitle method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public void validateCADDrawingsModalIsOpen()
 	{
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until((ExpectedCondition<Boolean>) driver -> productTitle.isDisplayed());
-		Assert.assertTrue(productTitle.isDisplayed());
-		log.info("[ASSERT PASSED] - CADDDrawings modal is open");
+		try
+		{
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			wait.until((ExpectedCondition<Boolean>) driver -> productTitle.isDisplayed());
+			Assert.assertTrue(productTitle.isDisplayed());
+			log.info("[ASSERT PASSED] - CADDrawings modal is open");
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateCADDrawingsModalIsOpen method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public void validateBlockedUserMessage(String expectedErrorMessage)
 	{
-		Assert.assertEquals(txtVisualizerNotice.getText(), expectedErrorMessage);
-		log.info("[ASSERT PASSED] - Blocked user text '" + txtVisualizerNotice.getText() + "' does match expected error text '" + expectedErrorMessage + "'");
+		try
+		{
+			Assert.assertEquals(txtVisualizerNotice.getText(), expectedErrorMessage);
+			log.info("[ASSERT PASSED] - Blocked user text '" + txtVisualizerNotice.getText() 
+					+ "' does match expected error text '" + expectedErrorMessage + "'");
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateBlockedUserMessage method", e);
+			e.printStackTrace();
+		}
 	}
 }

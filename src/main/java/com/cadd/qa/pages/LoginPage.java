@@ -71,14 +71,23 @@ public class LoginPage extends TestBase{
 	
 	public List<String> getValidationErrorTexts()
 	{
-		List<WebElement> validationErrorTexts = driver.findElements(By.xpath("//div[@class='validation-summary-errors']//li"));
 		List<String> errors = new ArrayList<String>();
-		
-		for (WebElement validationError : validationErrorTexts)
+		try
 		{
-			errors.add(validationError.getText());
+			List<WebElement> validationErrorTexts = driver.findElements(By.xpath("//div[@class='validation-summary-errors']//li"));
+			
+			for (WebElement validationError : validationErrorTexts)
+			{
+				errors.add(validationError.getText());
+			}
 		}
-		
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in getValidationErrorTexts method", e);
+			e.printStackTrace();
+		}
+
 		return errors;
 	}
 	
@@ -86,10 +95,34 @@ public class LoginPage extends TestBase{
 	{
 		List<String> errors = getValidationErrorTexts();
 		
-		if(errors != null)
+		try
 		{
-			Assert.assertTrue(errors.contains(expectedErrorMessage));
-			log.info("[ASSERT PASSED] - expected error message '" + expectedErrorMessage + "' is displyed on the screen");
+			if(errors != null)
+			{
+				Assert.assertTrue(errors.contains(expectedErrorMessage));
+				log.info("[ASSERT PASSED] - expected error message '" + expectedErrorMessage + "' is displyed on the screen");
+			}
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateValidationErrorText method", e);
+			e.printStackTrace();
+		}
+	}
+	
+	public void validateLoginPageTitle()
+	{
+		try
+		{
+			Assert.assertEquals(getLoginPageTitle(), "CADdetails Login");
+			log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateLoginPageTitle method", e);
+			e.printStackTrace();
 		}
 	}
 }

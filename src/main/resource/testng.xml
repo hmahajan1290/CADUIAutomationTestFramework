@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite name="CADDetails Application Test Automation Test Suite">
 
+	<listeners>
+		<listener class-name="com.qa.ExtentReportListener.ExtentReportListener" />
+	</listeners>
+
 	<test name="CADDetails App Test Cases">
 		<classes>
 			<class name="com.cadd.qa.testcases.HomePageTests"></class>

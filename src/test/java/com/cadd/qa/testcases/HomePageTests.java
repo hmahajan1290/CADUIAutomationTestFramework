@@ -1,5 +1,7 @@
 package com.cadd.qa.testcases;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -11,6 +13,7 @@ import com.cadd.qa.pages.CADDrawingsPage;
 import com.cadd.qa.pages.HomePage;
 import com.cadd.qa.pages.LoginPage;
 import com.cadd.qa.util.TestConstants;
+import com.cadd.qa.util.TestUtil;
 
 public class HomePageTests extends TestBase{
 	
@@ -36,9 +39,7 @@ public class HomePageTests extends TestBase{
 	{
 		log.info("------------- Test execution verifyClickingOnSignInButtonOpensLoginPage START -------------");
 		LoginPage loginPage = homePage.clickSignIn();
-		String title = loginPage.getLoginPageTitle();
-		Assert.assertEquals(title, "CADdetails Login");
-		log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		loginPage.validateLoginPageTitle();
 		log.info("------------- Test execution verifyClickingOnSignInButtonOpensLoginPage END -------------");
 	}
 	
@@ -47,9 +48,7 @@ public class HomePageTests extends TestBase{
 	{
 		log.info("------------- Test execution verifyUserIsAuthBlockedWhenUserClicksCADLinkOnHomePage START -------------");
 		LoginPage loginPage = homePage.clickCADLink();
-		String title = loginPage.getLoginPageTitle();
-		Assert.assertEquals(title, "CADdetails Login");
-		log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		loginPage.validateLoginPageTitle();
 		log.info("------------- Test execution verifyUserIsAuthBlockedWhenUserClicksCADLinkOnHomePage END -------------");
 	}
 	
@@ -71,6 +70,17 @@ public class HomePageTests extends TestBase{
 	@AfterMethod
 	public void tearDown()
 	{
+		if(testFailed)
+		{
+			try 
+			{
+				TestUtil.takeScreenshotAtEndOfTest();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
 		driver.quit();
 	}
 }

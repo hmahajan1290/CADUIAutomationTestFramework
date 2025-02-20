@@ -1,9 +1,9 @@
 package com.cadd.qa.testcases;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,6 +22,7 @@ public class CADDrawingsPageTests extends TestBase{
 	LoginPage loginPage;
 	UserHomePage userHomePage;
 	CADDrawingsPage cadDrawingsPage;
+	TestUtil ut = new TestUtil();
 	Logger log = Logger.getLogger(CADDrawingsPageTests.class);
 	
 	public CADDrawingsPageTests()
@@ -36,8 +37,7 @@ public class CADDrawingsPageTests extends TestBase{
 		log.info("Navigating to url: " + prop.getProperty("url"));
 		homePage = new HomePage();
 		loginPage = homePage.clickSignIn();
-		Assert.assertEquals(loginPage.getLoginPageTitle(), "CADdetails Login");
-		log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		loginPage.validateLoginPageTitle();
 		userHomePage = loginPage.login(prop.getProperty("email"), prop.getProperty("password"));
 		userHomePage.validateLoggedInUserName();
 		cadDrawingsPage = userHomePage.clickCADDrawings();
@@ -52,9 +52,9 @@ public class CADDrawingsPageTests extends TestBase{
 		cadDrawingsPage.validateCADDrawingsModalIsOpen();
 		cadDrawingsPage.clickCADdetailsTab();
 		cadDrawingsPage.validateCADPreviewImage();
-		TestUtil.deleteFileIfExists(TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME);
+		ut.deleteFileIfExists(TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME);
 		cadDrawingsPage.clickDownloadAllButtonInVisualizer();
-		TestUtil.validateFileIsDownloaded(TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME);
+		ut.validateFileIsDownloaded(TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME);
 		log.info("File '" + TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME + "' is downloaded at - " + new File("").getAbsolutePath() + "/Downloads/");
 		log.info("------------- Test execution verifyUserIsAbleToPreviewAndDownloadContentFromVisualizer END -------------");
 	}
@@ -62,6 +62,17 @@ public class CADDrawingsPageTests extends TestBase{
 	@AfterMethod
 	public void tearDown()
 	{
+		if(testFailed)
+		{
+			try 
+			{
+				TestUtil.takeScreenshotAtEndOfTest();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
 		driver.quit();
 	}
 }
