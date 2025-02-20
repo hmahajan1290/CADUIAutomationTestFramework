@@ -1,9 +1,9 @@
 package com.cadd.qa.testcases;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,6 +20,7 @@ public class UserHomePageTests extends TestBase{
 	HomePage homePage;
 	LoginPage loginPage;
 	UserHomePage userHomePage;
+	TestUtil ut = new TestUtil();
 	Logger log = Logger.getLogger(UserHomePageTests.class);
 	
 	public UserHomePageTests()
@@ -34,8 +35,7 @@ public class UserHomePageTests extends TestBase{
 		log.info("Navigating to url: " + prop.getProperty("url"));
 		homePage = new HomePage();
 		loginPage = homePage.clickSignIn();
-		Assert.assertEquals(loginPage.getLoginPageTitle(), "CADdetails Login");
-		log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		loginPage.validateLoginPageTitle();
 		userHomePage = loginPage.login(prop.getProperty("email"), prop.getProperty("password"));
 		userHomePage.validateLoggedInUserName();
 	}
@@ -44,9 +44,9 @@ public class UserHomePageTests extends TestBase{
 	public void verifyLoggedInUserIsAbleToDownloadCADSampleCollectionFromHomePage()
 	{
 		log.info("------------- Test execution verifyLoggedInUserIsAbleToDownloadCADSampleCollectionFromHomePage START -------------");
-		TestUtil.deleteFileIfExists(TestConstants.CAD_SAMPLE_COLLECTION_FILE_NAME);
+		ut.deleteFileIfExists(TestConstants.CAD_SAMPLE_COLLECTION_FILE_NAME);
 		userHomePage.clickCADLink();
-		TestUtil.validateFileIsDownloaded(TestConstants.CAD_SAMPLE_COLLECTION_FILE_NAME);
+		ut.validateFileIsDownloaded(TestConstants.CAD_SAMPLE_COLLECTION_FILE_NAME);
 		log.info("File '" + TestConstants.CAD_SAMPLE_COLLECTION_FILE_NAME + "' is downloaded at - " + new File("").getAbsolutePath() + "/Downloads/");
 		log.info("------------- Test execution verifyLoggedInUserIsAbleToDownloadCADSampleCollectionFromHomePage END -------------");
 	}
@@ -54,6 +54,17 @@ public class UserHomePageTests extends TestBase{
 	@AfterMethod
 	public void tearDown()
 	{
+		if(testFailed)
+		{
+			try 
+			{
+				TestUtil.takeScreenshotAtEndOfTest();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
 		driver.quit();
 	}
 }

@@ -1,7 +1,8 @@
 package com.cadd.qa.testcases;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -11,6 +12,7 @@ import com.cadd.qa.pages.HomePage;
 import com.cadd.qa.pages.LoginPage;
 import com.cadd.qa.pages.UserHomePage;
 import com.cadd.qa.util.TestConstants;
+import com.cadd.qa.util.TestUtil;
 
 public class LoginPageTests extends TestBase{
 
@@ -30,8 +32,7 @@ public class LoginPageTests extends TestBase{
 		log.info("Navigating to url: " + prop.getProperty("url"));
 		homePage = new HomePage();
 		loginPage = homePage.clickSignIn();
-		Assert.assertEquals(loginPage.getLoginPageTitle(), "CADdetails Login");
-		log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		loginPage.validateLoginPageTitle();
 	}
 	
 	@Test
@@ -64,6 +65,17 @@ public class LoginPageTests extends TestBase{
 	@AfterMethod
 	public void tearDown()
 	{
+		if(testFailed)
+		{
+			try 
+			{
+				TestUtil.takeScreenshotAtEndOfTest();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
 		driver.quit();
 	}
 }

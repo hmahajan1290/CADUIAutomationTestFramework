@@ -22,6 +22,7 @@ public class TestBase {
 	public static Properties prop;
 	static Actions act;
 	Logger log = Logger.getLogger(TestBase.class);
+	public static boolean testFailed = false;
 	
 	public TestBase()
 	{
@@ -71,21 +72,48 @@ public class TestBase {
 	
 	public void hoverElement(WebElement element)
 	{
-		act.moveToElement(element).build().perform();
-		log.info("Hovering element" + element.toString());
+		try
+		{
+			act.moveToElement(element).build().perform();
+			log.info("Hovering element" + element.toString());
+		}
+		catch (Exception e) 
+		{
+			testFailed = true;
+			log.error("ERROR in hoverElement method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public void sendKeys(WebElement element, String value)
 	{
-		element.clear();
-		element.sendKeys(value);
-		log.info("Entering " + value + "' to element '" + element.toString() + "'");
+		try 
+		{
+			element.clear();
+			element.sendKeys(value);
+			log.info("Entering " + value + "' to element '" + element.toString() + "'");
+		} 
+		catch (Exception e) 
+		{
+			testFailed = true;
+			log.error("ERROR in SendKeys method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public void click(WebElement element, String elementName)
 	{
-		element.click();
-		log.info("Clicking '" + elementName + "'");
+		try
+		{
+			element.click();
+			log.info("Clicking '" + elementName + "'");
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in Click method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public String getPageTitle()
@@ -95,7 +123,16 @@ public class TestBase {
 	
 	public void moveToElement(WebElement element)
 	{
-		act.moveToElement(element).build().perform();
-		log.info("Moving to element" + element.toString());
+		try
+		{
+			act.moveToElement(element).build().perform();
+			log.info("Moving to element" + element.toString());
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in moveToElement method", e);
+			e.printStackTrace();
+		}
 	}
 }

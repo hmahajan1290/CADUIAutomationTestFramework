@@ -17,18 +17,36 @@ public class TestUtil extends TestBase{
 	
 	Logger log = Logger.getLogger(TestUtil.class);
 	
-	public static void deleteFileIfExists(String fileName)
+	public void deleteFileIfExists(String fileName)
 	{
-		File file = new File(new File("").getAbsolutePath() + "/Downloads/" + fileName);
-		if (file.exists())
-		    file.delete();
+		try
+		{
+			File file = new File(new File("").getAbsolutePath() + "/Downloads/" + fileName);
+			if (file.exists())
+			    file.delete();
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in deleteFileIfExists method", e);
+			e.printStackTrace();
+		}
 	}
 	
-	public static void validateFileIsDownloaded(String fileName)
+	public void validateFileIsDownloaded(String fileName)
 	{
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-		File file = new File(new File("").getAbsolutePath() + "/Downloads/" + fileName);
-		wait.until((ExpectedCondition<Boolean>) driver -> file.exists());
+		try
+		{
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			File file = new File(new File("").getAbsolutePath() + "/Downloads/" + fileName);
+			wait.until((ExpectedCondition<Boolean>) driver -> file.exists());
+		}
+		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateFileIsDownloaded method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public static void takeScreenshotAtEndOfTest() throws IOException {
