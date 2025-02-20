@@ -1,0 +1,8 @@
+2025-02-20 03:00:05,702  INFO [main] LoginPageTests:30 - Navigating to url: https://www.caddetails.com/
+2025-02-20 03:00:14,103  INFO [main] TestBase:88 - Clicking Sign in
+2025-02-20 03:00:16,027  INFO [main] LoginPageTests:34 - [ASSERT PASSED] - User is on CADdetails Login page
+2025-02-20 03:00:16,081  INFO [main] LoginPageTests:49 - ------------- Test execution verifyErrorMessageIsDisplayedWhenInvalidEmailIsEnteredForLogin START -------------
+2025-02-20 03:00:17,317  INFO [main] TestBase:82 - Entering test@abc.com' to element '[[ChromeDriver: chrome on mac (d9cfb0b2777eeda2d9de741cf8fd0646)] -> id: PostModel_Email]'
+2025-02-20 03:00:21,593  INFO [main] TestBase:82 - Entering Seleniumtest123$' to element '[[ChromeDriver: chrome on mac (d9cfb0b2777eeda2d9de741cf8fd0646)] -> id: PostModel_Password]'
+2025-02-20 03:00:24,279  INFO [main] TestBase:88 - Clicking Login Button
+2025-02-20 03:00:26,514  INFO [main] LoginPageTests:52 - ------------- Test execution verifyErrorMessageIsDisplayedWhenInvalidEmailIsEnteredForLogin END -------------

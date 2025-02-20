@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="CADDetails Application Test Automation Test Suite">
+
+	<test name="CADDetails App Test Cases">
+		<classes>
+			<class name="com.cadd.qa.testcases.HomePageTests"></class>
+			<class name="com.cadd.qa.testcases.LoginPageTests"></class>
+			<class name="com.cadd.qa.testcases.UserHomePageTests"></class>
+			<class name="com.cadd.qa.testcases.CADDrawingsPageTests"></class>
+		</classes>
+	</test>
+</suite>
