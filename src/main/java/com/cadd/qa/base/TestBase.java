@@ -48,7 +48,7 @@ public class TestBase {
 		}
 	}
 	
-	public static void initialization() throws MalformedURLException
+	public static void initialization()
 	{
 		String browserName = prop.getProperty("browser");
 		
@@ -71,8 +71,14 @@ public class TestBase {
 				cap.setPlatform(Platform.LINUX);
 				options.merge(cap);
 				System.out.println("Running tests in headless mode");
-				URL gridUrl = URI.create("http://localhost:4444/wd/hub").toURL();
-				driver = new RemoteWebDriver(gridUrl, options);
+				URL gridUrl;
+				try {
+					gridUrl = URI.create("http://localhost:4444/wd/hub").toURL();
+					driver = new RemoteWebDriver(gridUrl, options);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			else
 			{
