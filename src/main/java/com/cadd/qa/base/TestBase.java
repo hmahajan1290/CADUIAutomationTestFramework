@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class TestBase {
 
@@ -49,10 +50,24 @@ public class TestBase {
 		if(browserName.equals("chrome"))
 		{
 			System.setProperty("webdriver.chrome.driver", new File("").getAbsolutePath() + "/BrowserDrivers/chromedriver");
+			System.out.println("Browserdriver path: " + new File("").getAbsolutePath() + "/BrowserDrivers/chromedriver");
 			ChromeOptions options = new ChromeOptions();
 			HashMap<String, Object> chromePref = new HashMap<>();
 			chromePref.put("download.default_directory", new File("").getAbsolutePath() + "/Downloads");
+			System.out.println("Downloads path: " + new File("").getAbsolutePath() + "/Downloads");
 			options.setExperimentalOption("prefs", chromePref);
+			
+			if(prop.getProperty("remote").equals("true"))
+			{
+				DesiredCapabilities cap = new DesiredCapabilities();
+				options.addArguments("--headless");
+				options.addArguments("--disable-gpu");
+				options.addArguments("--no-sandbox");
+				cap.setCapability(ChromeOptions.CAPABILITY, options);
+				options.merge(cap);
+				System.out.println("Running tests in headless mode");
+			}
+			
 			driver = new ChromeDriver(options);
 			act = new Actions(driver);
 		}
@@ -91,7 +106,7 @@ public class TestBase {
 		{
 			element.clear();
 			element.sendKeys(value);
-			log.info("Entering " + value + "' to element '" + element.toString() + "'");
+			log.info("Entering '" + value + "' to element '" + element.toString() + "'");
 		} 
 		catch (Exception e) 
 		{
