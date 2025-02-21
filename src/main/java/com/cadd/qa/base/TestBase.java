@@ -4,17 +4,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class TestBase {
 
@@ -48,12 +54,39 @@ public class TestBase {
 		
 		if(browserName.equals("chrome"))
 		{
-			System.setProperty("webdriver.chrome.driver", new File("").getAbsolutePath() + "/BrowserDrivers/chromedriver");
 			ChromeOptions options = new ChromeOptions();
 			HashMap<String, Object> chromePref = new HashMap<>();
 			chromePref.put("download.default_directory", new File("").getAbsolutePath() + "/Downloads");
+			System.out.println("Downloads path: " + new File("").getAbsolutePath() + "/Downloads");
 			options.setExperimentalOption("prefs", chromePref);
-			driver = new ChromeDriver(options);
+			
+			if(prop.getProperty("remote").equals("true"))
+			{
+				DesiredCapabilities cap = new DesiredCapabilities();
+				options.addArguments("--headless");
+				options.addArguments("--disable-gpu");
+				options.addArguments("--no-sandbox");
+				cap.setCapability(ChromeOptions.CAPABILITY, options);
+				cap.setBrowserName("chrome");
+				cap.setPlatform(Platform.LINUX);
+				options.merge(cap);
+				System.out.println("Running tests in headless mode");
+				URL gridUrl;
+				try {
+					gridUrl = URI.create("http://localhost:4444/wd/hub").toURL();
+					driver = new RemoteWebDriver(gridUrl, options);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				System.setProperty("webdriver.chrome.driver", new File("").getAbsolutePath() + "/BrowserDrivers/chromedriver");
+				System.out.println("Browserdriver path: " + new File("").getAbsolutePath() + "/BrowserDrivers/chromedriver");
+				driver = new ChromeDriver(options);
+			}
+			
 			act = new Actions(driver);
 		}
 		else if(browserName.equals("firefox"))
@@ -91,7 +124,7 @@ public class TestBase {
 		{
 			element.clear();
 			element.sendKeys(value);
-			log.info("Entering " + value + "' to element '" + element.toString() + "'");
+			log.info("Entering '" + value + "' to element '" + element.toString() + "'");
 		} 
 		catch (Exception e) 
 		{

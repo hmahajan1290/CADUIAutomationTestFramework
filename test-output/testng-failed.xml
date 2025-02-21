@@ -1,39 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite thread-count="2" parallel="methods" name="Failed suite [CADDetails Application Test Automation Test Suite]">
-  <test thread-count="2" parallel="methods" name="CADDetails App Test Cases(failed)">
+<suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.cadd.qa.testcases.CADDrawingsPageTests">
-        <methods>
-          <include name="setUp"/>
-          <include name="tearDown"/>
-          <include name="verifyUserIsAbleToPreviewAndDownloadContentFromVisualizer"/>
-        </methods>
-      </class> <!-- com.cadd.qa.testcases.CADDrawingsPageTests -->
-      <class name="com.cadd.qa.testcases.HomePageTests">
-        <methods>
-          <include name="setUp"/>
-          <include name="tearDown"/>
-          <include name="verifyUserIsAuthBlockedWhenUserClicksCADLinkOnHomePage"/>
-          <include name="verifyUnloggedUserCannotPreviewAndDownloadContentsFromVisualizer"/>
-        </methods>
-      </class> <!-- com.cadd.qa.testcases.HomePageTests -->
-      <class name="com.cadd.qa.testcases.UserHomePageTests">
-        <methods>
-          <include name="tearDown"/>
-          <include name="setUp"/>
-          <include name="verifyLoggedInUserIsAbleToDownloadCADSampleCollectionFromHomePage"/>
-        </methods>
-      </class> <!-- com.cadd.qa.testcases.UserHomePageTests -->
       <class name="com.cadd.qa.testcases.LoginPageTests">
         <methods>
-          <include name="tearDown"/>
-          <include name="verifyErrorMessageIsDisplayedWhenValidEmailButInvalidPaswordIsEnteredForLogin"/>
           <include name="setUp"/>
-          <include name="verifyUserIsAbleToLoginWithValidCredentials"/>
-          <include name="verifyErrorMessageIsDisplayedWhenInvalidEmailIsEnteredForLogin"/>
+          <include name="tearDown"/>
+          <include name="verifyErrorMessageIsDisplayedWhenUserTriesToLoginWithoutEnteringEmailAndPassword"/>
         </methods>
       </class> <!-- com.cadd.qa.testcases.LoginPageTests -->
     </classes>
-  </test> <!-- CADDetails App Test Cases(failed) -->
-</suite> <!-- Failed suite [CADDetails Application Test Automation Test Suite] -->
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->
