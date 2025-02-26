@@ -62,5 +62,11 @@ public class UserHomePage extends TestBase{
 			log.error("ERROR in validateLoggedInUserName method", e);
 			e.printStackTrace();
 		}
+		catch (AssertionError e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateLoggedInUserName method", e);
+			e.printStackTrace();
+		}
 	}
 }

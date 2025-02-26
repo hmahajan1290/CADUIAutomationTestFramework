@@ -109,6 +109,12 @@ public class LoginPage extends TestBase{
 			log.error("ERROR in validateValidationErrorText method", e);
 			e.printStackTrace();
 		}
+		catch (AssertionError e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateLoginPageTitle method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public void validateLoginPageTitle()
@@ -119,6 +125,12 @@ public class LoginPage extends TestBase{
 			log.info("[ASSERT PASSED] - User is on CADdetails Login page");
 		}
 		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateLoginPageTitle method", e);
+			e.printStackTrace();
+		}
+		catch (AssertionError e)
 		{
 			testFailed = true;
 			log.error("ERROR in validateLoginPageTitle method", e);

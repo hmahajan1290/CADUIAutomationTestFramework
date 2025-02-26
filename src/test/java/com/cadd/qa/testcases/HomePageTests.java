@@ -62,8 +62,20 @@ public class HomePageTests extends TestBase{
 		cadDrawingsPage.validateCADDrawingsModalIsOpen();
 		cadDrawingsPage.validateBlockedUserMessage(TestConstants.BLOCKED_USER_TEXT);
 		cadDrawingsPage.clickDownloadAllButtonInVisualizer();
-		Assert.assertEquals(cadDrawingsPage.getPageTitle(), TestConstants.LOGIN_PAGE_TITLE);
-		log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		try {
+			Assert.assertEquals(cadDrawingsPage.getPageTitle(), TestConstants.LOGIN_PAGE_TITLE);
+			log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		} catch (Exception e) {
+			testFailed = true;
+			log.error("ERROR in verifyUnloggedUserCannotPreviewAndDownloadContentsFromVisualizer method", e);
+			e.printStackTrace();
+		}
+		catch (AssertionError e)
+		{
+			testFailed = true;
+			log.error("ERROR in verifyUnloggedUserCannotPreviewAndDownloadContentsFromVisualizer method", e);
+			e.printStackTrace();
+		}
 		log.info("------------- Test execution verifyUnloggedUserCannotPreviewAndDownloadContentsFromVisualizer END -------------");
 	}
 	

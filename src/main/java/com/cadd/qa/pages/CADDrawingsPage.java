@@ -82,6 +82,12 @@ public class CADDrawingsPage extends TestBase{
 			log.error("ERROR in validateCADDrawingsPageTitle method", e);
 			e.printStackTrace();
 		}
+		catch (AssertionError e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateCADDrawingsPageTitle method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public void validateCADDrawingsModalIsOpen()
@@ -99,6 +105,12 @@ public class CADDrawingsPage extends TestBase{
 			log.error("ERROR in validateCADDrawingsModalIsOpen method", e);
 			e.printStackTrace();
 		}
+		catch (AssertionError e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateCADDrawingsModalIsOpen method", e);
+			e.printStackTrace();
+		}
 	}
 	
 	public void validateBlockedUserMessage(String expectedErrorMessage)
@@ -110,6 +122,12 @@ public class CADDrawingsPage extends TestBase{
 					+ "' does match expected error text '" + expectedErrorMessage + "'");
 		}
 		catch (Exception e)
+		{
+			testFailed = true;
+			log.error("ERROR in validateBlockedUserMessage method", e);
+			e.printStackTrace();
+		}
+		catch (AssertionError e)
 		{
 			testFailed = true;
 			log.error("ERROR in validateBlockedUserMessage method", e);
