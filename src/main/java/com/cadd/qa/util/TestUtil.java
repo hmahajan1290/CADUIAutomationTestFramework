@@ -21,9 +21,15 @@ public class TestUtil extends TestBase{
 	{
 		try
 		{
-			File file = new File(new File("").getAbsolutePath() + "/Downloads/" + fileName);
+			String home = System.getProperty("user.home");
+			File file = new File(home + File.separator + "Downloads" + File.separator + fileName);
+			//File file = new File(new File("").getAbsolutePath() + "/Downloads/" + fileName);
 			if (file.exists())
+			{
+				log.info("File '" + fileName + "' already exists at location " + file);
+				log.info("Deleting the file...");
 			    file.delete();
+			}
 		}
 		catch (Exception e)
 		{
@@ -38,8 +44,10 @@ public class TestUtil extends TestBase{
 		try
 		{
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
-			File file = new File(new File("").getAbsolutePath() + "/Downloads/" + fileName);
+			String home = System.getProperty("user.home");
+			File file = new File(home + File.separator + "Downloads" + File.separator + fileName);
 			wait.until((ExpectedCondition<Boolean>) driver -> file.exists());
+			log.info("File '" + TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME + "' is downloaded at - " + file);
 		}
 		catch (Exception e)
 		{

@@ -55,7 +55,6 @@ public class CADDrawingsPageTests extends TestBase{
 		ut.deleteFileIfExists(TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME);
 		cadDrawingsPage.clickDownloadAllButtonInVisualizer();
 		ut.validateFileIsDownloaded(TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME);
-		log.info("File '" + TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME + "' is downloaded at - " + new File("").getAbsolutePath() + "/Downloads/");
 		log.info("------------- Test execution verifyUserIsAbleToPreviewAndDownloadContentFromVisualizer END -------------");
 	}
 	

@@ -37,7 +37,8 @@ public class TestBase {
 		try
 		{
 			prop = new Properties();
-			FileInputStream ip = new FileInputStream(new File("").getAbsolutePath() + "/src/main/java/com/cadd/qa/config/config.properties");
+			String currentDir = System.getProperty("user.dir");
+			FileInputStream ip = new FileInputStream(currentDir + "/src/main/java/com/cadd/qa/config/config.properties");
 			prop.load(ip);
 		}
 		catch (FileNotFoundException e)
@@ -65,10 +66,14 @@ public class TestBase {
 			if(enableChromeOptions.equalsIgnoreCase("true"))
 				options = getChromeOptions(cap);
 			
-			HashMap<String, Object> chromePref = new HashMap<>();
-			chromePref.put("download.default_directory", new File("").getAbsolutePath() + "/Downloads");
-			System.out.println("Downloads path: " + new File("").getAbsolutePath() + "/Downloads");
-			options.setExperimentalOption("prefs", chromePref);
+			System.out.println("Downloads Path: " + System.getProperty("user.home") + File.separator + "Downloads");
+			/*
+			 * HashMap<String, Object> chromePref = new HashMap<>();
+			 * chromePref.put("download.default_directory", new File("").getAbsolutePath() +
+			 * "/Downloads"); System.out.println("Downloads path: " + new
+			 * File("").getAbsolutePath() + "/Downloads");
+			 * options.setExperimentalOption("prefs", chromePref);
+			 */
 			
 			if(remote.equalsIgnoreCase("false"))
 			{
