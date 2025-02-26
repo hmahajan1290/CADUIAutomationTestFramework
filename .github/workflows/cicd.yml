@@ -28,14 +28,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        
     - name: Build with Maven
       run: mvn clean test
-    - name: Upload results to path
+      
+    - name: Archive Artifacts
       uses: actions/upload-artifact@v4
-      if: failure()
       with:
-        name: results
-        path: ${{ github.workspace }}/app/build/intermediates/lint_intermediate_text_report/debug/lint-results-debug.txt
-        if-no-files-found: ignore
+        name: applications
+        path: ./*.log
 
     
