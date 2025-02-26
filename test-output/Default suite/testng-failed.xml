@@ -6,8 +6,8 @@
       <class name="com.cadd.qa.testcases.HomePageTests">
         <methods>
           <include name="setUp"/>
+          <include name="verifyClickingOnSignInButtonOpensLoginPage"/>
           <include name="tearDown"/>
-          <include name="verifyUnloggedUserCannotPreviewAndDownloadContentsFromVisualizer"/>
         </methods>
       </class> <!-- com.cadd.qa.testcases.HomePageTests -->
     </classes>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -55,18 +56,17 @@ public class CADDrawingsPageTests extends TestBase{
 		ut.deleteFileIfExists(TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME);
 		cadDrawingsPage.clickDownloadAllButtonInVisualizer();
 		ut.validateFileIsDownloaded(TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME);
-		log.info("File '" + TestConstants.AMICO_CAD_DRAWINGS_DOWNLOAD_FILE_NAME + "' is downloaded at - " + new File("").getAbsolutePath() + "/Downloads/");
 		log.info("------------- Test execution verifyUserIsAbleToPreviewAndDownloadContentFromVisualizer END -------------");
 	}
 	
 	@AfterMethod
-	public void tearDown()
+	public void tearDown(ITestResult result)
 	{
 		if(testFailed)
 		{
 			try 
 			{
-				TestUtil.takeScreenshotAtEndOfTest();
+				TestUtil.takeScreenshotAtEndOfTest(result.getMethod().getMethodName());
 			} 
 			catch (IOException e) 
 			{

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -62,19 +63,31 @@ public class HomePageTests extends TestBase{
 		cadDrawingsPage.validateCADDrawingsModalIsOpen();
 		cadDrawingsPage.validateBlockedUserMessage(TestConstants.BLOCKED_USER_TEXT);
 		cadDrawingsPage.clickDownloadAllButtonInVisualizer();
-		Assert.assertEquals(cadDrawingsPage.getPageTitle(), TestConstants.LOGIN_PAGE_TITLE);
-		log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		try {
+			Assert.assertEquals(cadDrawingsPage.getPageTitle(), TestConstants.LOGIN_PAGE_TITLE);
+			log.info("[ASSERT PASSED] - User is on CADdetails Login page");
+		} catch (Exception e) {
+			testFailed = true;
+			log.error("ERROR in verifyUnloggedUserCannotPreviewAndDownloadContentsFromVisualizer method", e);
+			e.printStackTrace();
+		}
+		catch (AssertionError e)
+		{
+			testFailed = true;
+			log.error("ERROR in verifyUnloggedUserCannotPreviewAndDownloadContentsFromVisualizer method", e);
+			e.printStackTrace();
+		}
 		log.info("------------- Test execution verifyUnloggedUserCannotPreviewAndDownloadContentsFromVisualizer END -------------");
 	}
 	
 	@AfterMethod
-	public void tearDown()
+	public void tearDown(ITestResult result)
 	{
 		if(testFailed)
 		{
 			try 
 			{
-				TestUtil.takeScreenshotAtEndOfTest();
+				TestUtil.takeScreenshotAtEndOfTest(result.getMethod().getMethodName());
 			} 
 			catch (IOException e) 
 			{

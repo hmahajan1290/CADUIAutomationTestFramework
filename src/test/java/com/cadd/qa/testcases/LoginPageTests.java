@@ -3,6 +3,7 @@ package com.cadd.qa.testcases;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -62,14 +63,24 @@ public class LoginPageTests extends TestBase{
 		log.info("------------- Test execution verifyErrorMessageIsDisplayedWhenValidEmailButInvalidPaswordIsEnteredForLogin END -------------");
 	}
 	
+	@Test
+	public void verifyErrorMessageIsDisplayedWhenUserTriesToLoginWithoutEnteringEmailAndPassword()
+	{
+		log.info("------------- Test execution verifyErrorMessageIsDisplayedWhenUserTriesToLoginWithoutEnteringEmailAndPassword START -------------");
+		loginPage.login("", "");
+		loginPage.validateValidationErrorText(TestConstants.EMAIL_REQUIRED_ERROR_TEXT);
+		loginPage.validateValidationErrorText(TestConstants.PASSWORD_REQUIRED_ERROR_TEXT);
+		log.info("------------- Test execution verifyErrorMessageIsDisplayedWhenUserTriesToLoginWithoutEnteringEmailAndPassword END -------------");
+	}
+	
 	@AfterMethod
-	public void tearDown()
+	public void tearDown(ITestResult result)
 	{
 		if(testFailed)
 		{
 			try 
 			{
-				TestUtil.takeScreenshotAtEndOfTest();
+				TestUtil.takeScreenshotAtEndOfTest(result.getMethod().getMethodName());
 			} 
 			catch (IOException e) 
 			{
