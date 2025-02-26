@@ -37,6 +37,5 @@ jobs:
       with:
         name: Artifacts
         path: ${{ github.workspace }}/screenshots/*.png
-              ${{ github.workspace }}/application.log
 
     
