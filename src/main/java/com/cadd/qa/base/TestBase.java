@@ -4,17 +4,25 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class TestBase {
 
@@ -45,15 +53,41 @@ public class TestBase {
 	public static void initialization()
 	{
 		String browserName = prop.getProperty("browser");
+		String enableChromeOptions = prop.getProperty("enableChromeOptions");
+		String remote = prop.getProperty("remote");
 		
 		if(browserName.equals("chrome"))
 		{
-			System.setProperty("webdriver.chrome.driver", new File("").getAbsolutePath() + "/BrowserDrivers/chromedriver");
+			DesiredCapabilities cap = new DesiredCapabilities();
+			//System.setProperty("webdriver.chrome.driver", new File("").getAbsolutePath() + "/BrowserDrivers/chromedriver");
 			ChromeOptions options = new ChromeOptions();
+			
+			if(enableChromeOptions.equalsIgnoreCase("true"))
+				options = getChromeOptions(cap);
+			
 			HashMap<String, Object> chromePref = new HashMap<>();
 			chromePref.put("download.default_directory", new File("").getAbsolutePath() + "/Downloads");
+			System.out.println("Downloads path: " + new File("").getAbsolutePath() + "/Downloads");
 			options.setExperimentalOption("prefs", chromePref);
-			driver = new ChromeDriver(options);
+			
+			if(remote.equalsIgnoreCase("false"))
+			{
+				WebDriverManager.chromedriver().setup();
+				driver = new ChromeDriver(options);
+			}
+			else if(remote.equalsIgnoreCase("true"))
+			{
+				cap.setBrowserName("chrome");
+				cap.setPlatform(Platform.LINUX);
+				URL gridUrl;
+				try {
+					gridUrl = URI.create("http://localhost:4444/wd/hub").toURL();
+					driver = new RemoteWebDriver(gridUrl, options);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			act = new Actions(driver);
 		}
 		else if(browserName.equals("firefox"))
@@ -68,6 +102,17 @@ public class TestBase {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 		
 		driver.get(prop.getProperty("url"));
+	}
+	
+	private static ChromeOptions getChromeOptions(DesiredCapabilities cap)
+	{
+		ChromeOptions co = new ChromeOptions();
+		co.addArguments("--headless");
+		co.addArguments("--disable-gpu");
+		co.addArguments("--no-sandbox");
+		cap.setCapability(ChromeOptions.CAPABILITY, co);
+		co.merge(cap);
+		return co;
 	}
 	
 	public void hoverElement(WebElement element)
@@ -91,7 +136,7 @@ public class TestBase {
 		{
 			element.clear();
 			element.sendKeys(value);
-			log.info("Entering " + value + "' to element '" + element.toString() + "'");
+			log.info("Entering '" + value + "' to element '" + element.toString() + "'");
 		} 
 		catch (Exception e) 
 		{
