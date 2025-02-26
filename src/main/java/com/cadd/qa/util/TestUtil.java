@@ -57,10 +57,10 @@ public class TestUtil extends TestBase{
 		}
 	}
 	
-	public static void takeScreenshotAtEndOfTest() throws IOException {
+	public static void takeScreenshotAtEndOfTest(String methodName) throws IOException {
 		System.out.println("Taking screenshot...");
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		String currentDir = System.getProperty("user.dir");
-		FileUtils.copyFile(scrFile, new File(currentDir + "/screenshots/" + System.currentTimeMillis() + ".png"));
+		FileUtils.copyFile(scrFile, new File(currentDir + "/screenshots/" + methodName + "_" + System.currentTimeMillis() + ".png"));
 	}
 }

@@ -3,6 +3,7 @@ package com.cadd.qa.testcases;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -73,13 +74,13 @@ public class LoginPageTests extends TestBase{
 	}
 	
 	@AfterMethod
-	public void tearDown()
+	public void tearDown(ITestResult result)
 	{
 		if(testFailed)
 		{
 			try 
 			{
-				TestUtil.takeScreenshotAtEndOfTest();
+				TestUtil.takeScreenshotAtEndOfTest(result.getMethod().getMethodName());
 			} 
 			catch (IOException e) 
 			{
