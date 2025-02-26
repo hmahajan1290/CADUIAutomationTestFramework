@@ -78,6 +78,8 @@ public class TestBase {
 			if(remote.equalsIgnoreCase("false"))
 			{
 				WebDriverManager.chromedriver().setup();
+				if(driver != null)
+					driver.quit();
 				driver = new ChromeDriver(options);
 			}
 			else if(remote.equalsIgnoreCase("true"))
