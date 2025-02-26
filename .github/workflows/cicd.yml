@@ -38,4 +38,10 @@ jobs:
         name: Artifacts
         path: ${{ github.workspace }}/screenshots/*.png
 
+    - name: Archive Logs
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test Logs
+        path: ${{ github.workspace }}/application.log
+
     
